@@ -78,7 +78,21 @@ def differentiate(ys, xs):
     return np.diff(ys) / np.diff(xs)
 
 # hop_len is the hop_len for librosa.pyin
-def detect_onsets(spec_flux, times, sr, f0, voiced, hop_len, threshold=0.15, min_time_between=0.15, min_hz_diff=20):
+def detect_onsets(spec_flux, times, threshold=0.15, min_time_between=0.15):
+    onsets = []
+    
+    # Find local maxima above threshold 
+    for i in range(1, len(spec_flux)-1): 
+        # Check timing with previous onset
+        if not onsets or (times[i] - onsets[-1]) > min_time_between:
+            # Check if it's a local peak above threshold 
+            if (spec_flux[i] > spec_flux[i-1] and spec_flux[i] >= spec_flux[i+1] and spec_flux[i] > threshold):
+                onsets.append(times[i])
+
+    return onsets
+
+# hop_len is the hop_len for librosa.pyin
+def detect_onsets_with_f0(spec_flux, times, sr, f0, voiced, hop_len, threshold=0.15, min_time_between=0.15, min_hz_diff=20):
     onsets = []
 
     seconds_per_f0_read = hop_len / sr
@@ -97,7 +111,7 @@ def detect_onsets(spec_flux, times, sr, f0, voiced, hop_len, threshold=0.15, min
 
             if flux_peak:  # ### CHANGED: early-accept flux peaks
                 onsets.append(times[i])
-            continue
+                continue
 
             # check for note fundamental frequency change (f0)
             f0_frame = int(i / hop_len)
