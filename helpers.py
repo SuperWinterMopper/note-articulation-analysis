@@ -90,13 +90,13 @@ def detect_onsets(spec_flux, times, threshold=0.15, min_time_between=0.15):
 
     return onsets
 
-def detect_onsets_and_release(spec_flux, times, sr, onset_thresh=0.15, sustain_thresh=.1, min_time_between=0.15):
+def detect_onsets_and_release(spec_flux, times, sr, onset_thresh=0.15, sustain_thresh=.13, min_time_between=0.15):
     onsets = [] # indices onsets incur
-    sustains = [] # indeces sustains incur
+    sustains = [] # indices sustains incur
     search_sustain: bool = False # if true, then we're looking for sustain phase. if false, we're looking for next onset
     onset_init: int = 0
 
-    mtb_samples = min_time_between * sr
+    mtb_samples = int(min_time_between * sr * .2)
 
     for i in range(1, len(spec_flux) - 1):
         # keep track of last time we we're below threshold -> will be when not articulation begins
@@ -108,7 +108,8 @@ def detect_onsets_and_release(spec_flux, times, sr, onset_thresh=0.15, sustain_t
                     onsets.append(onset_init)
                     search_sustain = True
         else:
-            window = np.arange(i, min(onsets[-1] + mtb_samples, len(times)))
+            window = np.arange(i, min(i + mtb_samples, len(times)))
+            # window = np.arange(i, min(onsets[-1] + mtb_samples, len(times)))
             if np.average(spec_flux[window]) < sustain_thresh:
                 sustains.append(i)
                 search_sustain = False
