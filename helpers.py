@@ -81,7 +81,6 @@ def differentiate(ys, xs):
 def detect_onsets(spec_flux, times, threshold=0.15, min_time_between=0.15):
     onsets = []
     
-    # Find local maxima above threshold 
     for i in range(1, len(spec_flux)-1): 
         # Check timing with previous onset
         if not onsets or (times[i] - onsets[-1]) > min_time_between:
@@ -90,6 +89,33 @@ def detect_onsets(spec_flux, times, threshold=0.15, min_time_between=0.15):
                 onsets.append(times[i])
 
     return onsets
+
+def detect_onsets_and_release(spec_flux, times, sr, onset_thresh=0.15, sustain_thresh=.1, min_time_between=0.15):
+    onsets = [] # indices onsets incur
+    sustains = [] # indeces sustains incur
+    search_sustain: bool = False # if true, then we're looking for sustain phase. if false, we're looking for next onset
+    onset_init: int = 0
+
+    mtb_samples = min_time_between * sr
+
+    for i in range(1, len(spec_flux) - 1):
+        # keep track of last time we we're below threshold -> will be when not articulation begins
+        onset_init = i if spec_flux[i] < onset_thresh else onset_init
+
+        if not search_sustain:
+            if not onsets or (times[i] - times[onsets[-1]]) > min_time_between:
+                if (spec_flux[i] > spec_flux[i-1] and spec_flux[i] >= spec_flux[i+1] and spec_flux[i] > onset_thresh):
+                    onsets.append(onset_init)
+                    search_sustain = True
+        else:
+            window = np.arange(i, min(onsets[-1] + mtb_samples, len(times)))
+            if np.average(spec_flux[window]) < sustain_thresh:
+                sustains.append(i)
+                search_sustain = False
+    onsets = [times[i] for i in onsets]
+    sustains = [times[i] for i in sustains]
+
+    return onsets, sustains
 
 # hop_len is the hop_len for librosa.pyin
 def detect_onsets_with_f0(spec_flux, times, sr, f0, voiced, hop_len, threshold=0.15, min_time_between=0.15, min_hz_diff=20):
@@ -201,20 +227,8 @@ def computeSpectralFlux(time_frames, frame_freq_amps, sample_rate):
 
 
 def extract_notes_from_recording(mp4_file, min_note_duration=0.1):
-    """
-    Extract note names in order using librosa's pYIN algorithm from an mp4 recording.
-    
-    Args:
-        mp4_file: Path to the mp4 file containing audio
-        min_note_duration: Minimum duration (in seconds) for a note to be considered
-        
-    Returns:
-        List of detected notes with their timing information
-    """
-    # Get the audio data
     ys, ts, sr = get_audio_data(mp4_file)
     
-    # Run the pYIN algorithm
     f0, voiced_flag, voiced_probs = librosa.pyin(
         y=ys, 
         sr=sr, 
@@ -224,22 +238,17 @@ def extract_notes_from_recording(mp4_file, min_note_duration=0.1):
         hop_length=512
     )
     
-    # Get time stamps for each frame
     frame_times = librosa.frames_to_time(np.arange(len(f0)), sr=sr, hop_length=512)
     
-    # Group continuous segments into notes
     notes = []
     current_note = None
-    min_frames = int(min_note_duration / (512/sr))  # Convert duration to frames
+    min_frames = int(min_note_duration / (512/sr)) 
     
     for i in range(len(f0)):
         if voiced_flag[i] and not np.isnan(f0[i]):
-            # Get the note name for this frequency
             note_name = librosa.hz_to_note(f0[i], octave=True)
             
-            # Start a new note or continue the current one
             if current_note is None or current_note["name"] != note_name:
-                # If we have a previous note, add it to our list if it's long enough
                 if current_note and (i - current_note["start_frame"]) >= min_frames:
                     notes.append({
                         "name": current_note["name"],
@@ -249,17 +258,14 @@ def extract_notes_from_recording(mp4_file, min_note_duration=0.1):
                         "avg_freq": np.mean(current_note["freqs"])
                     })
                 
-                # Start a new note
                 current_note = {
                     "name": note_name,
                     "start_frame": i,
                     "freqs": [f0[i]]
                 }
             else:
-                # Continue the current note
                 current_note["freqs"].append(f0[i])
     
-    # Add the final note if it exists
     if current_note and (len(f0) - current_note["start_frame"]) >= min_frames:
         notes.append({
             "name": current_note["name"],
