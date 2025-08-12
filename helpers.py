@@ -78,7 +78,7 @@ def differentiate(ys, xs):
     return np.diff(ys) / np.diff(xs)
 
 # hop_len is the hop_len for librosa.pyin
-def detect_onsets(spec_flux, times, sr, f0, voiced, hop_len, threshold=0.15, min_time_between=0.15, min_hz_diff=80):
+def detect_onsets(spec_flux, times, sr, f0, voiced, hop_len, threshold=0.15, min_time_between=0.15, min_hz_diff=20):
     onsets = []
 
     seconds_per_f0_read = hop_len / sr
@@ -94,9 +94,10 @@ def detect_onsets(spec_flux, times, sr, f0, voiced, hop_len, threshold=0.15, min
         if not onsets or (times[i] - onsets[-1]) > min_time_between:
             # Check if it's a local peak above threshold 
             flux_peak = (spec_flux[i] > spec_flux[i-1] and spec_flux[i] >= spec_flux[i+1] and spec_flux[i] > threshold)
+
             if flux_peak:  # ### CHANGED: early-accept flux peaks
                 onsets.append(times[i])
-                continue
+            continue
 
             # check for note fundamental frequency change (f0)
             f0_frame = int(i / hop_len)
@@ -133,7 +134,7 @@ def detect_onsets(spec_flux, times, sr, f0, voiced, hop_len, threshold=0.15, min
     return onsets
 
 def magnitudeSpectrogram(ys, ts, sr):
-    fr_len = .002 # 20ms frames
+    fr_len = .02 # 20ms frames
     hop_length = int(sr * fr_len)
     
     frame_freq_amps = []
@@ -164,7 +165,7 @@ def computeSpectralFlux(time_frames, frame_freq_amps, sample_rate):
         flux = 0
         for f in range(len(frame_freq_amps)):
             # we half-wave rectify, so this only computes positive changes in
-            flux += frame_freq_amps[f][t] - frame_freq_amps[f][t - 1] 
+            flux += frame_freq_amps[f][t] - frame_freq_amps[f][t - 1]
         spec_flux[t - 1] = flux
 
     spec_flux = np.array(spec_flux)
@@ -174,14 +175,13 @@ def computeSpectralFlux(time_frames, frame_freq_amps, sample_rate):
     # apply filter to smooth. use median filter with window ~40 ms.
     # frame_hz = (time_frames[1] - time_frames[0]) * sample_rate
     # k = int(round(.04 * frame_hz)) | 1
-    # spec_flux = medfilt(spec_flux, kernel_size=5)
+    # spec_flux = medfilt(spec_flux, kernel_size=3)
 
     # half-wave rectify
     spec_flux = np.maximum(spec_flux, 0)
     
     # Normalize spec_flux
     spec_flux /= max(spec_flux)
-
 
     return time_frames[1:], spec_flux # skip the first in time_frames due to difference calculation
 
