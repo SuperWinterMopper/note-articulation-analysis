@@ -77,7 +77,7 @@ def get_fft(ys, sr):
 def differentiate(ys, xs):
     return np.diff(ys) / np.diff(xs)
 
-def magnitudeSpectrogram(ys, ts, sr):
+def magnitude_spectrogram(ys, ts, sr):
     fr_len = .02 # 20ms frames
     hop_length = int(sr * fr_len)
     
@@ -97,12 +97,27 @@ def magnitudeSpectrogram(ys, ts, sr):
     time_frames = np.array(time_frames)
     frame_freq_amps = np.column_stack(frame_freq_amps)
     # plotMagSpec(time_frames=time_frames, freq_bins=freq_bins, frame_freq_amps=frame_freq_amps)
-    return time_frames, frame_freq_amps
+    return time_frames, frame_freq_amps, freq_bins
 
-def compute_spectral_centroid(time_frames, frame_freq_amps):
-    spec_centr = []
+def compute_spectral_centroid(time_frames, freq_bins, frame_freq_amps):
+    centroids = [0.0 for _ in range(len(time_frames))]
+
+    assert len(freq_bins) == len(frame_freq_amps)
+    assert len(time_frames) == len(frame_freq_amps[0]) - 1
+
+    for i in range(len(time_frames)):
+        amps_sum = 0; weighted_freq_sum = 0
+
+        for j in range(len(freq_bins)):
+            weight = abs(frame_freq_amps[j][i])
+            weighted_freq_sum += freq_bins[j] * weight
+            amps_sum += weight
+        centroids[i] = weighted_freq_sum / amps_sum if amps_sum != 0 else 0
     
+    centroids = gaussian_filter1d(centroids, sigma=1, truncate=3)
 
+    return centroids
+    
 def compute_spectral_flux(time_frames, frame_freq_amps, sample_rate):
     # note that frame_freq_amps is already magnitude
     spec_flux = np.zeros(len(time_frames) - 1)
