@@ -77,18 +77,62 @@ def get_fft(ys, sr):
 def differentiate(ys, xs):
     return np.diff(ys) / np.diff(xs)
 
-# hop_len is the hop_len for librosa.pyin
-def detect_onsets(spec_flux, times, threshold=0.15, min_time_between=0.15):
-    onsets = []
+def magnitudeSpectrogram(ys, ts, sr):
+    fr_len = .02 # 20ms frames
+    hop_length = int(sr * fr_len)
     
-    for i in range(1, len(spec_flux)-1): 
-        # Check timing with previous onset
-        if not onsets or (times[i] - onsets[-1]) > min_time_between:
-            # Check if it's a local peak above threshold 
-            if (spec_flux[i] > spec_flux[i-1] and spec_flux[i] >= spec_flux[i+1] and spec_flux[i] > threshold):
-                onsets.append(times[i])
+    frame_freq_amps = []
+    time_frames = []
 
-    return onsets
+    # Process first frame to get dimensions
+    frame_ys = ys[0:hop_length]
+    freq_bins, _ = get_fft(frame_ys, sr)
+    
+    for i in range(0, len(ys) - hop_length + 1, hop_length // 2):
+        frame_ys = ys[i:i + hop_length].copy()
+        _, amps = get_fft(frame_ys, sr)
+        frame_freq_amps.append(np.abs(amps))
+        time_frames.append(ts[i + hop_length // 2])
+    
+    time_frames = np.array(time_frames)
+    frame_freq_amps = np.column_stack(frame_freq_amps)
+    # plotMagSpec(time_frames=time_frames, freq_bins=freq_bins, frame_freq_amps=frame_freq_amps)
+    return time_frames, frame_freq_amps
+
+def compute_spectral_centroid(time_frames, frame_freq_amps):
+    spec_centr = []
+    
+
+def compute_spectral_flux(time_frames, frame_freq_amps, sample_rate):
+    # note that frame_freq_amps is already magnitude
+    spec_flux = np.zeros(len(time_frames) - 1)
+
+    assert(len(time_frames) == len(frame_freq_amps[0]))
+
+    for t in range(1, len(time_frames)):
+        flux = 0
+        for f in range(len(frame_freq_amps)):
+            # we half-wave rectify, so this only computes positive changes in
+            flux += frame_freq_amps[f][t] - frame_freq_amps[f][t - 1]
+        spec_flux[t - 1] = flux
+
+    spec_flux = np.array(spec_flux)
+
+    spec_flux = gaussian_filter1d(spec_flux, sigma=1, truncate=3)
+    
+    # apply filter to smooth. use median filter with window ~40 ms.
+    # frame_hz = (time_frames[1] - time_frames[0]) * sample_rate
+    # k = int(round(.04 * frame_hz)) | 1
+    # spec_flux = medfilt(spec_flux, kernel_size=3)
+
+    # half-wave rectify
+    spec_flux = np.maximum(spec_flux, 0)
+    
+    # Normalize spec_flux
+    spec_flux /= max(spec_flux)
+
+    return time_frames[1:], spec_flux # skip the first in time_frames due to difference calculation
+
 
 def detect_onsets_and_release(spec_flux, times, sr, onset_thresh=0.15, sustain_thresh=.13, min_time_between=0.15):
     onsets = [] # indices onsets incur
@@ -173,59 +217,6 @@ def detect_onsets_with_f0(spec_flux, times, sr, f0, voiced, hop_len, threshold=0
             if f0_diff:
                 onsets.append(times[i])
     return onsets
-
-def magnitudeSpectrogram(ys, ts, sr):
-    fr_len = .02 # 20ms frames
-    hop_length = int(sr * fr_len)
-    
-    frame_freq_amps = []
-    time_frames = []
-
-    # Process first frame to get dimensions
-    frame_ys = ys[0:hop_length]
-    freq_bins, _ = get_fft(frame_ys, sr)
-    
-    for i in range(0, len(ys) - hop_length + 1, hop_length // 2):
-        frame_ys = ys[i:i + hop_length].copy()
-        _, amps = get_fft(frame_ys, sr)
-        frame_freq_amps.append(np.abs(amps))
-        time_frames.append(ts[i + hop_length // 2])
-    
-    time_frames = np.array(time_frames)
-    frame_freq_amps = np.column_stack(frame_freq_amps)
-    # plotMagSpec(time_frames=time_frames, freq_bins=freq_bins, frame_freq_amps=frame_freq_amps)
-    return time_frames, frame_freq_amps
-
-def computeSpectralFlux(time_frames, frame_freq_amps, sample_rate):
-    # note that frame_freq_amps is already magnitude
-    spec_flux = np.zeros(len(time_frames) - 1)
-
-    assert(len(time_frames) == len(frame_freq_amps[0]))
-
-    for t in range(1, len(time_frames)):
-        flux = 0
-        for f in range(len(frame_freq_amps)):
-            # we half-wave rectify, so this only computes positive changes in
-            flux += frame_freq_amps[f][t] - frame_freq_amps[f][t - 1]
-        spec_flux[t - 1] = flux
-
-    spec_flux = np.array(spec_flux)
-
-    spec_flux = gaussian_filter1d(spec_flux, sigma=1, truncate=3)
-    
-    # apply filter to smooth. use median filter with window ~40 ms.
-    # frame_hz = (time_frames[1] - time_frames[0]) * sample_rate
-    # k = int(round(.04 * frame_hz)) | 1
-    # spec_flux = medfilt(spec_flux, kernel_size=3)
-
-    # half-wave rectify
-    spec_flux = np.maximum(spec_flux, 0)
-    
-    # Normalize spec_flux
-    spec_flux /= max(spec_flux)
-
-    return time_frames[1:], spec_flux # skip the first in time_frames due to difference calculation
-
 
 def extract_notes_from_recording(mp4_file, min_note_duration=0.1):
     ys, ts, sr = get_audio_data(mp4_file)
