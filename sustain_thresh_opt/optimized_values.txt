@@ -1,0 +1,64 @@
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex1WholeMod.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex1WholeModF.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex2WholeMod.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex3WholeMod.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex3WholeModF.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex4WholeMod.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex4WholeModF.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex5WholeMod.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex5WholeModF.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex6WholeMod.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex6WholeModF.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex7WholeMod.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex8WholeMod.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex8WholeModF.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex9WholeMod.mp4:
+0.008585858585858586
+
+==============================
+Minimum coefficient for complete onset + sustain pairing for ex10WholeMod.mp4:
+0.008585858585858586
+
