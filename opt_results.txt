@@ -17,8 +17,8 @@ Spectral Threshold: 	 0.1555
 BPM: 	 120
 Max Notes Per Beat: 	 2
 Min Time Between Notes: 	 0.2500 seconds
-Sustain Threshold Coefficient: 	 0.4444
-Sustain Threshold Value: 	 0.0691
+Sustain Threshold Coefficient: 	 0.4500
+Sustain Threshold Value: 	 0.0700
 
 ==================================================
 Name: 	 ex2WholeMod.mp4
@@ -27,8 +27,8 @@ Spectral Threshold: 	 0.1142
 BPM: 	 80
 Max Notes Per Beat: 	 1
 Min Time Between Notes: 	 0.7500 seconds
-Sustain Threshold Coefficient: 	 0.4111
-Sustain Threshold Value: 	 0.0470
+Sustain Threshold Coefficient: 	 0.4167
+Sustain Threshold Value: 	 0.0476
 
 ==================================================
 Name: 	 ex3WholeMod.mp4
@@ -37,8 +37,8 @@ Spectral Threshold: 	 0.0800
 BPM: 	 100
 Max Notes Per Beat: 	 2
 Min Time Between Notes: 	 0.3000 seconds
-Sustain Threshold Coefficient: 	 1.1000
-Sustain Threshold Value: 	 0.0880
+Sustain Threshold Coefficient: 	 1.5833
+Sustain Threshold Value: 	 0.1267
 
 ==================================================
 Name: 	 ex3WholeModF.mp4
@@ -47,8 +47,8 @@ Spectral Threshold: 	 0.0800
 BPM: 	 130
 Max Notes Per Beat: 	 2
 Min Time Between Notes: 	 0.2308 seconds
-Sustain Threshold Coefficient: 	 1.1000
-Sustain Threshold Value: 	 0.0880
+Sustain Threshold Coefficient: 	 1.3500
+Sustain Threshold Value: 	 0.1080
 
 ==================================================
 Name: 	 ex4WholeMod.mp4
@@ -57,8 +57,8 @@ Spectral Threshold: 	 0.1870
 BPM: 	 90
 Max Notes Per Beat: 	 4
 Min Time Between Notes: 	 0.1667 seconds
-Sustain Threshold Coefficient: 	 0.4444
-Sustain Threshold Value: 	 0.0831
+Sustain Threshold Coefficient: 	 0.4500
+Sustain Threshold Value: 	 0.0841
 
 ==================================================
 Name: 	 ex4WholeModF.mp4
@@ -67,8 +67,8 @@ Spectral Threshold: 	 0.0800
 BPM: 	 120
 Max Notes Per Beat: 	 2
 Min Time Between Notes: 	 0.2500 seconds
-Sustain Threshold Coefficient: 	 1.0778
-Sustain Threshold Value: 	 0.0862
+Sustain Threshold Coefficient: 	 1.0833
+Sustain Threshold Value: 	 0.0867
 
 ==================================================
 Name: 	 ex5WholeMod.mp4
@@ -87,8 +87,8 @@ Spectral Threshold: 	 0.1045
 BPM: 	 86
 Max Notes Per Beat: 	 2
 Min Time Between Notes: 	 0.3488 seconds
-Sustain Threshold Coefficient: 	 0.6444
-Sustain Threshold Value: 	 0.0674
+Sustain Threshold Coefficient: 	 0.6500
+Sustain Threshold Value: 	 0.0680
 
 ==================================================
 Name: 	 ex6WholeMod.mp4
@@ -107,8 +107,8 @@ Spectral Threshold: 	 0.1142
 BPM: 	 90
 Max Notes Per Beat: 	 4
 Min Time Between Notes: 	 0.1667 seconds
-Sustain Threshold Coefficient: 	 1.1000
-Sustain Threshold Value: 	 0.1257
+Sustain Threshold Coefficient: 	 1.1500
+Sustain Threshold Value: 	 0.1314
 
 ==================================================
 Name: 	 ex7WholeMod.mp4
@@ -117,8 +117,8 @@ Spectral Threshold: 	 0.1215
 BPM: 	 70
 Max Notes Per Beat: 	 2
 Min Time Between Notes: 	 0.4286 seconds
-Sustain Threshold Coefficient: 	 0.2889
-Sustain Threshold Value: 	 0.0351
+Sustain Threshold Coefficient: 	 0.3000
+Sustain Threshold Value: 	 0.0365
 
 ==================================================
 Name: 	 ex8WholeMod.mp4
@@ -127,8 +127,8 @@ Spectral Threshold: 	 0.1167
 BPM: 	 55
 Max Notes Per Beat: 	 4
 Min Time Between Notes: 	 0.2727 seconds
-Sustain Threshold Coefficient: 	 0.5889
-Sustain Threshold Value: 	 0.0687
+Sustain Threshold Coefficient: 	 0.6000
+Sustain Threshold Value: 	 0.0700
 
 ==================================================
 Name: 	 ex8WholeModF.mp4
@@ -137,8 +137,8 @@ Spectral Threshold: 	 0.1191
 BPM: 	 80
 Max Notes Per Beat: 	 4
 Min Time Between Notes: 	 0.1875 seconds
-Sustain Threshold Coefficient: 	 0.9222
-Sustain Threshold Value: 	 0.1098
+Sustain Threshold Coefficient: 	 0.9333
+Sustain Threshold Value: 	 0.1112
 
 ==================================================
 Name: 	 ex9WholeMod.mp4
@@ -147,8 +147,8 @@ Spectral Threshold: 	 0.0800
 BPM: 	 100
 Max Notes Per Beat: 	 4
 Min Time Between Notes: 	 0.1500 seconds
-Sustain Threshold Coefficient: 	 1.0778
-Sustain Threshold Value: 	 0.0862
+Sustain Threshold Coefficient: 	 1.6500
+Sustain Threshold Value: 	 0.1320
 
 ==================================================
 Name: 	 ex10WholeMod.mp4
@@ -157,6 +157,6 @@ Spectral Threshold: 	 0.1433
 BPM: 	 120
 Max Notes Per Beat: 	 3
 Min Time Between Notes: 	 0.1667 seconds
-Sustain Threshold Coefficient: 	 0.9111
-Sustain Threshold Value: 	 0.1306
+Sustain Threshold Coefficient: 	 0.9167
+Sustain Threshold Value: 	 0.1314
 
