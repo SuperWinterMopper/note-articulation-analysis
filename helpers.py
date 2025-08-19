@@ -149,7 +149,7 @@ def compute_spectral_flux(time_frames, frame_freq_amps, sample_rate):
     return time_frames[1:], spec_flux # skip the first in time_frames due to difference calculation
 
 
-def detect_onsets_and_release(spec_flux, times, sr, onset_thresh=0.15, sustain_thresh=.13, min_time_between=0.15):
+def detect_onsets_and_release(spec_flux, times, sr, sustain_thresh, onset_thresh=0.15, min_time_between=0.15):
     onsets = [] # indices onsets incur
     sustains = [] # indices sustains incur
     search_sustain: bool = False # if true, then we're looking for sustain phase. if false, we're looking for next onset
@@ -176,6 +176,23 @@ def detect_onsets_and_release(spec_flux, times, sr, onset_thresh=0.15, sustain_t
     sustains = [times[i] for i in sustains]
 
     return onsets, sustains
+
+def detect_onsets_only(spec_flux, times, sr, onset_thresh=0.15, sustain_thresh=.01, min_time_between=0.15):
+    onsets = [] # indices onsets incur
+    onset_init: int = 0
+
+    mtb_samples = int(min_time_between * sr * .2)
+
+    for i in range(1, len(spec_flux) - 1):
+        # keep track of last time we we're below threshold -> will be when not articulation begins
+        onset_init = i if spec_flux[i] < onset_thresh else onset_init
+
+        if not onsets or (times[i] - times[onsets[-1]]) > min_time_between:
+            if (spec_flux[i] > spec_flux[i-1] and spec_flux[i] >= spec_flux[i+1] and spec_flux[i] > onset_thresh):
+                onsets.append(onset_init)
+
+    onsets = [times[i] for i in onsets]
+    return onsets
 
 # hop_len is the hop_len for librosa.pyin
 def detect_onsets_with_f0(spec_flux, times, sr, f0, voiced, hop_len, threshold=0.15, min_time_between=0.15, min_hz_diff=20):
