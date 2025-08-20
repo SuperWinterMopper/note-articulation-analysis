@@ -1,0 +1,33 @@
+For exercise ex1WholeMod.mp4, Note count Actual:	90, Note count Detected: 	90 | Accuracy: 	1.0
+For ex1WholeMod.mp4, mean articulation length: 0.03677777777777778
+For exercise ex1WholeModF.mp4, Note count Actual:	90, Note count Detected: 	90 | Accuracy: 	1.0
+For ex1WholeModF.mp4, mean articulation length: 0.03266666666666673
+For exercise ex2WholeMod.mp4, Note count Actual:	49, Note count Detected: 	49 | Accuracy: 	1.0
+For ex2WholeMod.mp4, mean articulation length: 0.029795918367346734
+For exercise ex3WholeMod.mp4, Note count Actual:	145, Note count Detected: 	142 | Accuracy: 	0.9793103448275862
+For ex3WholeMod.mp4, mean articulation length: 0.041549295774648
+For exercise ex3WholeModF.mp4, Note count Actual:	145, Note count Detected: 	142 | Accuracy: 	0.9793103448275862
+For ex3WholeModF.mp4, mean articulation length: 0.039929577464788694
+For exercise ex4WholeMod.mp4, Note count Actual:	102, Note count Detected: 	102 | Accuracy: 	1.0
+For ex4WholeMod.mp4, mean articulation length: 0.034411764705882454
+For exercise ex4WholeModF.mp4, Note count Actual:	102, Note count Detected: 	84 | Accuracy: 	0.8235294117647058
+For ex4WholeModF.mp4, mean articulation length: 0.04071428571428586
+For exercise ex5WholeMod.mp4, Note count Actual:	133, Note count Detected: 	134 | Accuracy: 	0.9925373134328358
+For ex5WholeMod.mp4, mean articulation length: 0.030373134328358423
+For exercise ex5WholeModF.mp4, Note count Actual:	133, Note count Detected: 	133 | Accuracy: 	1.0
+For ex5WholeModF.mp4, mean articulation length: 0.032255639097744496
+For exercise ex6WholeMod.mp4, Note count Actual:	118, Note count Detected: 	118 | Accuracy: 	1.0
+For ex6WholeMod.mp4, mean articulation length: 0.0401694915254238
+For exercise ex6WholeModF.mp4, Note count Actual:	118, Note count Detected: 	118 | Accuracy: 	1.0
+For ex6WholeModF.mp4, mean articulation length: 0.04084745762711836
+For exercise ex7WholeMod.mp4, Note count Actual:	86, Note count Detected: 	86 | Accuracy: 	1.0
+For ex7WholeMod.mp4, mean articulation length: 0.035581395348837364
+For exercise ex8WholeMod.mp4, Note count Actual:	112, Note count Detected: 	112 | Accuracy: 	1.0
+For ex8WholeMod.mp4, mean articulation length: 0.03875000000000011
+For exercise ex8WholeModF.mp4, Note count Actual:	112, Note count Detected: 	112 | Accuracy: 	1.0
+For ex8WholeModF.mp4, mean articulation length: 0.03901785714285731
+For exercise ex9WholeMod.mp4, Note count Actual:	121, Note count Detected: 	119 | Accuracy: 	0.9834710743801653
+For ex9WholeMod.mp4, mean articulation length: 0.039495798319327695
+For exercise ex10WholeMod.mp4, Note count Actual:	102, Note count Detected: 	102 | Accuracy: 	1.0
+For ex10WholeMod.mp4, mean articulation length: 0.04049019607843143
+Average articulation window size is 0.03705164099621845
