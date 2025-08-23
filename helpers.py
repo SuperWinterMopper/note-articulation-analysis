@@ -62,9 +62,7 @@ def get_fft(ys, sr):
     n = len(ys)
     
     window = np.hamming(n)
-
     ys *= window
-
     scale = 1.0 / np.sum(window) * n
 
     amps = fft(ys) / n
@@ -128,7 +126,7 @@ def compute_spectral_flux(time_frames, frame_freq_amps, sample_rate):
         flux = 0
         for f in range(len(frame_freq_amps)):
             # we half-wave rectify, so this only computes positive changes in
-            flux += frame_freq_amps[f][t] - frame_freq_amps[f][t - 1]
+            flux += max(frame_freq_amps[f][t] - frame_freq_amps[f][t - 1], 0.0)
         spec_flux[t - 1] = flux
 
     spec_flux = np.array(spec_flux)
